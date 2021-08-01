@@ -38,6 +38,7 @@ if(optionArr.length==0)
     }
     console.log(content);
 }
+}
 
 // //Executing Command 3
 if(optionArr.length>0)
@@ -135,6 +136,6 @@ if(optionArr[0]=="-b")
          console.log(newcontent);
 }
 }
-}
+
 
 
