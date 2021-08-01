@@ -1,85 +1,140 @@
 let fs=require("fs");
+let path=require("path");
 
-let inputarr=process.argv.slice(2);
+//Taking input from CLI
+let inputArr=process.argv.slice(2);
 
-//segregate
-let filearr=[];
-let optionarr=[];
+//Creating arrays for storing file paths and options
+let filepathArr=[];
+let optionArr=[];
 
-for(let i=0;i<inputarr.length;i++)
+//Putting the elements in filepathArr and optionArr arrays respective to them
+for(let i=0;i<inputArr.length;i++)
 {
-    let c=inputarr[i].charAt(0);
-    if(c=='-')
+    let ch=inputArr[i].charAt(0);
+
+    if(ch=='-')
     {
-        optionarr.push(inputarr[i]);
+        optionArr.push(inputArr[i]);
     }
-    else{
-            filearr.push(inputarr[i]);
-    }
-   
-}
-//command 1
-if(filearr.length==1&&optionarr.length==0)
-{
-    let filepath=filearr[0];
-    if(fs.existsSync(filepath)==true)
+    else
     {
-        let content=fs.readFileSync(filepath);
-        console.log(""+content);
-    }
-    else{
-        console.log("File does not exist");
-        return;
+        filepathArr.push(inputArr[i]);
     }
 }
-//command 2
-else if(filearr.length!=1&&optionarr.length==0){
+
+//Executing Command 1
+if(optionArr.length==0)
+{
+
+//Executing Command 2
+if(optionArr.length==0)
+{
     let content="";
-    for(let i=0;i<filearr.length;i++)
+
+    for(let i=0;i<filepathArr.length;i++)
     {
-        
-        let filepath=filearr[i];
-        if(fs.existsSync(filepath)==true)
+        content+=fs.readFileSync(filepathArr[i]);
+    }
+    console.log(content);
+}
+
+// //Executing Command 3
+if(optionArr.length>0)
+{
+if(optionArr[0]=="-s")
+{
+   
+        // console.log("-s executed");
+        let content="";
+
+        for(let i=0;i<filepathArr.length;i++)
         {
-             content+=fs.readFileSync(filepath);
-            
+            if(fs.existsSync(filepathArr[i])==true)
+             content+=""+fs.readFileSync(filepathArr[i])+"\r\n";
+
+             else
+             {
+                 console.log("Invalid file path passed");
+                 return;
+             }
+       
         }
-        else{
-            console.log("File does not exist");
+        content=content.split("\r\n");
+       let finalcontent="";
+       for(let i=0;i<content.length;i++)
+       {
+           if(content[i]!="")
+           {
+           finalcontent+=content[i]+"\n\n";
+           }
+       }
+       console.log(finalcontent);
+    }
+
+//Executing Command 4
+if(optionArr[0]=="-n")
+{
+    let content="";
+    for(let i=0;i<filepathArr.length;i++)
+    {
+        if(fs.existsSync(filepathArr[i])==true)
+        {
+            content+=fs.readFileSync(filepathArr[i])+"\r\n";
+        }
+        else
+        {
+            console.log("Invalid File path passed");
             return;
         }
-    }
-     console.log(""+content);
-}
-//command 3
-//-s -> make large line break to a single line break
-
-if(optionarr.includes("-s"))
-{
-    let content="";
-    for(let j=0;j<filearr.length;j++)
-    {
-        
-    if(fs.existsSync(filearr[j]))
-    {
-    content+=""+fs.readFileSync(filearr[j])+"\r\n";
-    
-    }
-    // console.log(content);
+       
     }
     content=content.split("\r\n");
+   
     let newcontent="";
-    for(let i=0;i<content.length;i++)
-    {
-        if(content[i]!="")
+    let c=1;
+        for(let j=0;j<content.length;j++)
         {
-            newcontent=newcontent+content[i]+"\n\n";
+            newcontent+=""+c+"."+content[j]+"\n";
+            c++;
         }
-    }
-    console.log(newcontent);
+        console.log(newcontent);
+}
 
+if(optionArr[0]=="-b")
+{
+    let content="";
+    for(let i=0;i<filepathArr.length;i++)
+    {
+        if(fs.existsSync(filepathArr[i])==true)
+        {
+            content+=fs.readFileSync(filepathArr[i])+"\r\n";
+        }
+        else
+        {
+            console.log("Invalid File path passed");
+            return;
+        }
+       
     }
-    else{
-        console.log("File does not exist");
-    }
+    content=content.split("\r\n");
+   // console.log(content);
+     let newcontent="";
+    let c=1;
+         for(let j=0;j<content.length;j++)
+         {
+             if(content[j]!="")
+             {
+            newcontent+=""+c+"."+content[j]+"\n";
+            c++;
+             }
+            else{
+                newcontent+=""+content[j]+"\n";
+            }
+        }
+         console.log(newcontent);
+}
+}
+}
+
 
