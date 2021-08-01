@@ -9,6 +9,7 @@ let filepathArr=[];
 let optionArr=[];
 
 //Putting the elements in filepathArr and optionArr arrays respective to them
+
 for(let i=0;i<inputArr.length;i++)
 {
     let ch=inputArr[i].charAt(0);
@@ -34,16 +35,24 @@ if(optionArr.length==0)
 
     for(let i=0;i<filepathArr.length;i++)
     {
+        if(fs.existsSync(filepathArr[i])==true)
+        {
         content+=fs.readFileSync(filepathArr[i]);
+        }
+        else
+        {
+            console.log("File does not exist");
+            return;
+        }
     }
     console.log(content);
 }
 }
 
 // //Executing Command 3
-if(optionArr.length>0)
+if(optionArr.length==1)
 {
-if(optionArr[0]=="-s")
+if(optionArr.includes("-s"))
 {
    
         // console.log("-s executed");
@@ -74,7 +83,7 @@ if(optionArr[0]=="-s")
     }
 
 //Executing Command 4
-if(optionArr[0]=="-n")
+if(optionArr.includes("-n"))
 {
     let content="";
     for(let i=0;i<filepathArr.length;i++)
@@ -102,7 +111,7 @@ if(optionArr[0]=="-n")
         console.log(newcontent);
 }
 
-if(optionArr[0]=="-b")
+if(optionArr.includes("-b"))
 {
     let content="";
     for(let i=0;i<filepathArr.length;i++)
